@@ -127,3 +127,9 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# Nirand
+Original/
+original/
+temp/
+Temp/
