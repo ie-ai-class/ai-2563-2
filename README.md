@@ -1,1 +1,1 @@
-# ai-class
+# AI Class
