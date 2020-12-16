@@ -44,7 +44,7 @@ def plot_decision_surface(y,X,W):
     plt.ylabel('petal length [cm]')
     plt.legend(loc='upper left')
     plt.tight_layout()
-    # plt.savefig('./perceptron_2.png', dpi=300)
+    plt.savefig('./perceptron_2.png', dpi=300)
     plt.show()
     
 def z_(X,W):
