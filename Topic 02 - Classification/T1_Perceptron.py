@@ -66,11 +66,11 @@ def numFalse_(y,X,W):
 # =============================================================================
 # Program start
 # =============================================================================
-# Model parameters
+# Set parameter 
 eta=0.1
-n_iter=10
+tf=10
 
-# Read data
+# Read/format data
 url = 'https://archive.ics.uci.edu/ml/machine-learning-databases/iris/iris.data'
 df = pd.read_csv(url, header=None)
 
@@ -88,20 +88,33 @@ X = np.hstack((x0,X))
 # Initialize weight and bias
 W = np.zeros(3)
 
-for n in range(n_iter):
+for t in range(tf):
+    
     for i in range(y.shape[0]):
+        
+        #Extract Extract X^i, y^i
         yi = y[i]
         Xi = X[i,:]
+        
+        #Calculate yHat^i
         yHat = yHat_(Xi,W)
         dy = yi - yHat
+        
+        #Calculate deltaW_j
         deltaW0 = eta * dy
         deltaW = eta * dy * Xi[1:]
+        
+        #Update W
         W[0] = W[0] + deltaW0
         W[1:] = W[1:] + deltaW
+        
+    #Count misclassification
     numFalse = numFalse_(y,X,W)
     
-    print(f'Epoch = {n+1:2d},  '
+    #Print result
+    print(f'Epoch = {t+1:2d},  '
           f'numFalse = {numFalse:3d},  '
           'W =', np.array2string(W,formatter={'float_kind':lambda x: "%.4f" % x}))
 
+#Plot
 plot_decision_surface(y,X,W)
