@@ -12,59 +12,13 @@ except:
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
+from PlotFunction import plot_decision_surface
 
 plt.close("all")
 
 # =============================================================================
 # Functions
 # =============================================================================
-def plot_decision_surface(y, X, W):
-    # y is a 1D NumPy array of length n
-    # X is a 2D NumPy array of shape (m+1,n). This has a column of 1's.
-    # W is a 1D NumPy array of length m+1. The first element is the bias.
-    # Note that this function requres a function yHat_(X,W).
-    resolution = 0.02
-    markers = ("s", "x", "o", "^", "v")
-    # plot the decision surface
-    x1_min, x1_max = X[:, 1].min() - 1, X[:, 1].max() + 1
-    x2_min, x2_max = X[:, 2].min() - 1, X[:, 2].max() + 1
-    xx1, xx2 = np.meshgrid(
-        np.arange(x1_min, x1_max, resolution), np.arange(x2_min, x2_max, resolution)
-    )
-
-    Xg = np.array([xx1.ravel(), xx2.ravel()]).T
-    xg0 = np.ones((Xg.shape[0], 1))
-    Xg = np.hstack((xg0, Xg))
-    Z = yHat_(Xg, W)
-    Z = Z.reshape(xx1.shape)
-
-    # plot area
-    plt.contourf(xx1, xx2, Z, alpha=0.4, cmap="Set3")
-    plt.xlim(xx1.min(), xx1.max())
-    plt.ylim(xx2.min(), xx2.max())
-
-    # plot class samples
-    for idx, cl in enumerate(np.unique(y)):
-        px = X[y == cl, 1]
-        py = X[y == cl, 2]
-        plt.scatter(
-            px,
-            py,
-            alpha=0.8,
-            cmap="Pastel1",
-            edgecolor="black",
-            marker=markers[idx],
-            label=cl,
-        )
-
-    plt.xlabel("sepal length [cm]")
-    plt.ylabel("petal length [cm]")
-    plt.legend(loc="upper left")
-    plt.tight_layout()
-    plt.savefig("./perceptron_2.png", dpi=300)
-    plt.show()
-
-
 def z_(X, W):
     n = W.shape[0]
     X = X.reshape(-1, n)
@@ -163,4 +117,4 @@ for t in range(tf):
     )
 
 # Plot
-plot_decision_surface(y, X, W)
+plot_decision_surface(y, X, W, ML_type="adaline")
