@@ -91,6 +91,6 @@ for t in range(tf):
         np.array2string(W, formatter={"float_kind": lambda x: "%.4f" % x}),
     )
 
-# Plot
+# Plotting decision surface
 # plot_decision_surface(y, X, W, ML_type="perceptron", filename="output.png")
 plot_decision_surface(y, X, W, ML_type="perceptron")

@@ -6,6 +6,16 @@ def plot_decision_surface(y, X, W, ML_type, filename=""):
     # y is a 1D NumPy array of length n
     # X is a 2D NumPy array of shape (m+1,n). This has a column of 1's.
     # W is a 1D NumPy array of length m+1. The first element is the bias.
+
+    if (type(y) != np.ndarray) | (type(X) != np.ndarray) | (type(W) != np.ndarray):
+        print("\n\nPlotting Error:The input array needs to be NumPy arrays.")
+        return
+    if len(X.shape) != 2:
+        print("\n\nPlotting Error: X needs to be a 2D NumPy array.")
+    if X.shape[1] != 3:
+        print("\n\nPlotting Error: X needs to have 3 columns.")
+        return
+
     resolution = 0.02
     markers = ("s", "x", "o", "^", "v")
     # plot the decision surface
@@ -58,12 +68,12 @@ def plot_decision_surface(y, X, W, ML_type, filename=""):
     plt.ylabel("petal length [cm]")
     plt.legend(loc="upper left")
     plt.tight_layout()
-    plt.show()
     if filename:
         plt.savefig("./" + filename, dpi=300)
+    plt.show()
 
 
-""" def plot_decision_surface_general(y, X, W):
+def plot_decision_surface_general(y, X, W):
     # y is a 1D NumPy array of length n
     # X is a 2D NumPy array of shape (m+1,n). This has a column of 1's.
     # W is a 1D NumPy array of length m+1. The first element is the bias.
@@ -106,5 +116,5 @@ def plot_decision_surface(y, X, W, ML_type, filename=""):
     plt.ylabel("petal length [cm]")
     plt.legend(loc="upper left")
     plt.tight_layout()
-    # plt.savefig("./perceptron_2.png", dpi=300)
-    plt.show() """
+    plt.savefig("./perceptron_2.png", dpi=300)
+    plt.show()

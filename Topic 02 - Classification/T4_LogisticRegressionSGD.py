@@ -112,4 +112,5 @@ for t in range(tf):
 
     (y, X) = shuffleArray(y, X)
 
+# Plotting decision surface
 plot_decision_surface(y, X, W, ML_type="logistic")
