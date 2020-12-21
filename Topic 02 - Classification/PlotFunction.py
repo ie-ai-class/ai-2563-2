@@ -73,7 +73,7 @@ def plot_decision_surface(y, X, W, ML_type, filename=""):
     plt.show()
 
 
-def plot_decision_surface_general(y, X, W):
+def plot_decision_surface_general(y, X, W, yHat_):
     # y is a 1D NumPy array of length n
     # X is a 2D NumPy array of shape (m+1,n). This has a column of 1's.
     # W is a 1D NumPy array of length m+1. The first element is the bias.
