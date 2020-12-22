@@ -15,10 +15,9 @@ import matplotlib.pyplot as plt
 from sklearn import datasets
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
-from sklearn.linear_model import Perceptron
+from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import accuracy_score
-
-# import inspect
+import inspect
 from PlotFunction2 import plot_decision_surface2
 
 plt.close("all")
@@ -61,13 +60,19 @@ X_train_std = sc.transform(X_train)
 X_test_std = sc.transform(X_test)
 
 # Create object (estimator)
-ppn = Perceptron(eta0=eta, random_state=1, verbose=1, n_iter_no_change=10)
+# lr = LogisticRegression(
+#    C=1, random_state=1, verbose=1, solver="lbfgs", multi_class="ovr"
+# )
+
+lr = LogisticRegression(
+    C=1, random_state=1, verbose=1, solver="lbfgs", multi_class="multinomial"
+)
 
 # Training
-ppn.fit(X_train_std, y_train)
+lr.fit(X_train_std, y_train)
 
 # Prediction
-y_pred = ppn.predict(X_test_std)
+y_pred = lr.predict(X_test_std)
 
 # Misclassification from the test samples
 sumMiss = (y_test != y_pred).sum()
@@ -78,7 +83,10 @@ accuracyScore = accuracy_score(y_test, y_pred)
 print(f"Misclassified examples: {sumMiss}")
 print(f"Accuracy score: {accuracyScore}")
 
+# Print the probability of each class
+# lr.predict_proba(X_test_std[:2,:])
+
 # Plot decision regions
 plot_decision_surface2(
-    X_train_std, X_test_std, y_train, y_test, ppn, filename="output.png"
+    X_train_std, X_test_std, y_train, y_test, lr, filename="output.png"
 )

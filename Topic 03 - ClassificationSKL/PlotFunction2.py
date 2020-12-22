@@ -1,5 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
+from sklearn.linear_model import LogisticRegression
+from sklearn.linear_model import Perceptron
 
 
 def plot_decision_surface2(X_train, X_test, y_train, y_test, clf, filename=""):
@@ -18,6 +20,14 @@ def plot_decision_surface2(X_train, X_test, y_train, y_test, clf, filename=""):
         print("\n\nPlotting Error: X needs to have 2 columns.")
         return
 
+    if isinstance(clf, LogisticRegression):
+        fitType = "logistic"
+    elif isinstance(clf, Perceptron):
+        fitType = "perceptron"
+    else:
+        print("\n\nUnknown classifier: " + type(clf))
+        return
+
     # setup
     resolution = 0.02
     markers = ("s", "x", "o", "^", "v")
@@ -33,57 +43,58 @@ def plot_decision_surface2(X_train, X_test, y_train, y_test, clf, filename=""):
     Z = clf.predict(np.array([xx1.ravel(), xx2.ravel()]).T)
     Z = Z.reshape(xx1.shape)
 
-    # Fig 1
-    fig1, (ax1, ax2) = plt.subplots(1, 2, figsize=(10, 5))
-    # Plot hyperplane
-    for idx, (W, w0) in enumerate(zip(clf.coef_, clf.intercept_)):
-        hm = -W[0] / W[1]
-        hx = np.linspace(x1_min, x1_max)
-        hy = hm * hx - (w0) / W[1]
-        ax1.plot(hx, hy, linestyle=linestyles[idx])
-    # Plot data
-    for idx, cl in enumerate(np.unique(y)):
-        ax1.scatter(
-            x=X[y == cl, 0],
-            y=X[y == cl, 1],
-            alpha=0.6,
-            edgecolor="black",
-            cmap="Set3",
-            marker=markers[idx],
-            label=cl,
-        )
-    ax1.set_title("Training Data")
-    ax1.set_xlim([xx1.min(), xx1.max()])
-    ax1.set_ylim([xx2.min(), xx2.max()])
-    ax1.set_xlabel("petal length (cm)")
-    ax1.set_ylabel("petal width (cm)")
-    ax1.legend()
+    if fitType == "perceptron":
+        # Fig 1
+        fig1, (ax1, ax2) = plt.subplots(1, 2, figsize=(10, 5))
+        # Plot hyperplane
+        for idx, (W, w0) in enumerate(zip(clf.coef_, clf.intercept_)):
+            hm = -W[0] / W[1]
+            hx = np.linspace(x1_min, x1_max)
+            hy = hm * hx - (w0) / W[1]
+            ax1.plot(hx, hy, linestyle=linestyles[idx])
+        # Plot data
+        for idx, cl in enumerate(np.unique(y)):
+            ax1.scatter(
+                x=X[y == cl, 0],
+                y=X[y == cl, 1],
+                alpha=0.6,
+                edgecolor="black",
+                cmap="Set3",
+                marker=markers[idx],
+                label=cl,
+            )
+        ax1.set_title("Training Data")
+        ax1.set_xlim([xx1.min(), xx1.max()])
+        ax1.set_ylim([xx2.min(), xx2.max()])
+        ax1.set_xlabel("petal length (cm)")
+        ax1.set_ylabel("petal width (cm)")
+        ax1.legend()
 
-    X = X_test
-    y = y_test
-    # Plot hyperplane
-    for idx, (W, w0) in enumerate(zip(clf.coef_, clf.intercept_)):
-        hm = -W[0] / W[1]
-        hx = np.linspace(x1_min, x1_max)
-        hy = hm * hx - (w0) / W[1]
-        ax2.plot(hx, hy, linestyle=linestyles[idx])
-    # Plot data
-    for idx, cl in enumerate(np.unique(y)):
-        ax2.scatter(
-            x=X[y == cl, 0],
-            y=X[y == cl, 1],
-            alpha=0.6,
-            edgecolor="black",
-            cmap="Set3",
-            marker=markers[idx],
-            label=cl,
-        )
-    ax2.set_title("Testing Data")
-    ax2.set_xlim([xx1.min(), xx1.max()])
-    ax2.set_ylim([xx2.min(), xx2.max()])
-    ax2.set_xlabel("petal length (cm)")
-    ax2.set_ylabel("petal width (cm)")
-    ax2.legend()
+        X = X_test
+        y = y_test
+        # Plot hyperplane
+        for idx, (W, w0) in enumerate(zip(clf.coef_, clf.intercept_)):
+            hm = -W[0] / W[1]
+            hx = np.linspace(x1_min, x1_max)
+            hy = hm * hx - (w0) / W[1]
+            ax2.plot(hx, hy, linestyle=linestyles[idx])
+        # Plot data
+        for idx, cl in enumerate(np.unique(y)):
+            ax2.scatter(
+                x=X[y == cl, 0],
+                y=X[y == cl, 1],
+                alpha=0.6,
+                edgecolor="black",
+                cmap="Set3",
+                marker=markers[idx],
+                label=cl,
+            )
+        ax2.set_title("Testing Data")
+        ax2.set_xlim([xx1.min(), xx1.max()])
+        ax2.set_ylim([xx2.min(), xx2.max()])
+        ax2.set_xlabel("petal length (cm)")
+        ax2.set_ylabel("petal width (cm)")
+        ax2.legend()
 
     # Fig 2
     fig2, (ax3, ax4) = plt.subplots(1, 2, figsize=(10, 5))
@@ -136,5 +147,6 @@ def plot_decision_surface2(X_train, X_test, y_train, y_test, clf, filename=""):
         loc = filename.find(".")
         fname = filename[:loc]
         ext = filename[loc:]
-        fig1.savefig("./" + fname + "_1" + ext, dpi=300)
+        if fitType == "perceptron":
+            fig1.savefig("./" + fname + "_1" + ext, dpi=300)
         fig2.savefig("./" + fname + "_2" + ext, dpi=300)
