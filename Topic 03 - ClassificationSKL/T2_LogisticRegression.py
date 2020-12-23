@@ -24,20 +24,18 @@ plt.close("all")
 # =============================================================================
 # Program start
 # =============================================================================
-#%% Model parameters
-eta = 0.1
+
+# param = "ex2"
+paramSet = {
+    "ex1": {"solver": "lbfgs", "C": 0.0001, "max_iter": 100},
+    "ex2": {"solver": "lbfgs", "C": 0.01, "max_iter": 100},
+    "ex3": {"solver": "lbfgs", "C": 1, "max_iter": 100},
+    "ex4": {"solver": "lbfgs", "C": 100, "max_iter": 100},
+    "ex5": {"solver": "lbfgs", "C": 10000, "max_iter": 100},
+}
 
 # Read data
 iris = datasets.load_iris()
-
-# Check methods and data
-# print(inspect.getmembers(iris))
-# print(dir(iris))
-# print(iris.DESCR)
-# print(iris.feature_names)
-# print(iris.data)
-# print(iris.target_names)
-# print(iris.target)
 
 # Extract the last 2 columns
 X = iris.data[:, 2:4]
@@ -48,45 +46,40 @@ X_train, X_test, y_train, y_test = train_test_split(
     X, y, test_size=0.3, random_state=1, stratify=y
 )
 
-# Verify stratification
-# print(np.bincount(y))
-# print(np.bincount(y_train))
-# print(np.bincount(y_test))
-
 # Standardization
 sc = StandardScaler()
 sc.fit(X_train)
 X_train_std = sc.transform(X_train)
 X_test_std = sc.transform(X_test)
 
-# Create object (estimator)
-# lr = LogisticRegression(
-#    C=1, random_state=1, verbose=1, solver="lbfgs", multi_class="ovr"
-# )
+for param, _ in paramSet.items():
+    lr = LogisticRegression(
+        random_state=1,
+        verbose=0,
+        solver=paramSet[param]["solver"],
+        C=paramSet[param]["C"],
+        max_iter=paramSet[param]["max_iter"],
+    )
 
-lr = LogisticRegression(
-    C=1, random_state=1, verbose=1, solver="lbfgs", multi_class="multinomial"
-)
+    # Training
+    lr.fit(X_train_std, y_train)
 
-# Training
-lr.fit(X_train_std, y_train)
+    # Prediction
+    y_pred = lr.predict(X_test_std)
 
-# Prediction
-y_pred = lr.predict(X_test_std)
+    # Misclassification from the test samples
+    sumMiss = (y_test != y_pred).sum()
 
-# Misclassification from the test samples
-sumMiss = (y_test != y_pred).sum()
+    # Accuracy score from the test samples
+    accuracyScore = accuracy_score(y_test, y_pred)
 
-# Accuracy score from the test samples
-accuracyScore = accuracy_score(y_test, y_pred)
+    print(f"Misclassified examples: {sumMiss}")
+    print(f"Accuracy score: {accuracyScore}")
+    print(f"Norm of W: {np.linalg.norm(lr.coef_)}")
+    # Print the probability of each class
+    # lr.predict_proba(X_test_std[:2,:])
 
-print(f"Misclassified examples: {sumMiss}")
-print(f"Accuracy score: {accuracyScore}")
-
-# Print the probability of each class
-# lr.predict_proba(X_test_std[:2,:])
-
-# Plot decision regions
-plot_decision_surface2(
-    X_train_std, X_test_std, y_train, y_test, lr, filename="output.png"
-)
+    # Plot decision regions
+    plot_decision_surface2(
+        X_train_std, X_test_std, y_train, y_test, lr, filename=f"output_{param}.png"
+    )
