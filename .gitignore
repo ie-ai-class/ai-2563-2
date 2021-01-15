@@ -129,23 +129,5 @@ dmypy.json
 .pyre/
 
 # Nirand
-Original/
-original/
-temp/
-Temp/
-PDF/
-pdf/
-Topic 01 - Basic Python/new_purchases.csv
-Topic 01 - Basic Python/new_purchases.xlsx
 .vscode/settings.json
-Topic 02 - Classification/perceptron_2.png
-perceptron_2.png
 .vscode/launch.json
-output.png
-Topic 03 - ClassificationSKL/output_1.png
-Topic 03 - ClassificationSKL/output_2.png
-Topic 03 - ClassificationSKL/output_ex1_2.png
-Topic 03 - ClassificationSKL/output_ex2_2.png
-Topic 03 - ClassificationSKL/output_ex3_2.png
-Topic 03 - ClassificationSKL/output_ex4_2.png
-Topic 03 - ClassificationSKL/output_ex5_2.png
