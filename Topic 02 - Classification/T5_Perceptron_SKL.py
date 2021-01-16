@@ -39,9 +39,13 @@ X = df.iloc[0:100, [0, 2]].values
 sc = StandardScaler()
 sc.fit(X)
 X_std = sc.transform(X)
+# print(sc.mean_)  # Mean
+# print(sc.var_)  # Variance
+# print(sc.scale_)  # Standard deviation
+# print(sc.inverse_transform(X_std))  # Make sure this is not an appended array.
 
 # Create object (estimator)
-ppn = Perceptron(eta0=eta, random_state=2, verbose=1)
+ppn = Perceptron(eta0=eta, random_state=1, verbose=1)
 
 # Training
 ppn.fit(X_std, y)
@@ -60,7 +64,7 @@ print(
 
 # Append a columne of X0
 x0 = np.ones((X.shape[0], 1))
-X_std = np.hstack((x0, X_std))
+X_std2 = np.hstack((x0, X_std))
 
 # Plotting decision surface
-plot_decision_surface(y, X_std, W, "perceptron", filename="output.png")
+plot_decision_surface(y, X_std2, W, "perceptron", filename="output.png")

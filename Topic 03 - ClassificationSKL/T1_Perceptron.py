@@ -26,12 +26,17 @@ plt.close("all")
 # Program start
 # =============================================================================
 #%% Model parameters
-eta = 0.1
 
+param = "firstTry"
+paramSet = {
+    "firstTry": {"eta0": 0.01, "n_iter_no_change": 3, "random_state": 5},
+    "best": {"eta0": 0.1, "n_iter_no_change": 10, "random_state": 1},
+}
 # Read data
 iris = datasets.load_iris()
 
 # Check methods and data
+# import inspect
 # print(inspect.getmembers(iris))
 # print(dir(iris))
 # print(iris.DESCR)
@@ -61,7 +66,12 @@ X_train_std = sc.transform(X_train)
 X_test_std = sc.transform(X_test)
 
 # Create object (estimator)
-ppn = Perceptron(eta0=eta, random_state=1, verbose=1, n_iter_no_change=10)
+ppn = Perceptron(
+    eta0=paramSet[param]["eta0"],
+    random_state=paramSet[param]["random_state"],
+    verbose=0,
+    n_iter_no_change=paramSet[param]["n_iter_no_change"],
+)
 
 # Training
 ppn.fit(X_train_std, y_train)
@@ -79,6 +89,6 @@ print(f"Misclassified examples: {sumMiss}")
 print(f"Accuracy score: {accuracyScore}")
 
 # Plot decision regions
-plot_decision_surface2(
-    X_train_std, X_test_std, y_train, y_test, ppn, filename="output.png"
-)
+# plot_decision_surface2(
+#    X_train_std, X_test_std, y_train, y_test, ppn, filename="output.png"
+# )

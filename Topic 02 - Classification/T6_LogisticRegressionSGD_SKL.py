@@ -30,7 +30,10 @@ df = pd.read_csv(url, header=None)
 
 # Extract y values and perform feature extraction
 y = df.iloc[0:100, 4].values
-y = np.where(y == "Iris-setosa", -1, 1)
+# Note that here you can use any value to distinguish betwee two classes.
+y = np.where(y == "Iris-setosa", 0, 1)
+# y = np.where(y == "Iris-setosa", -1, 1)
+# y = np.where(y == "Iris-setosa", 0, 10)
 
 # Extract sepal length and petal length
 X = df.iloc[0:100, [0, 2]].values
