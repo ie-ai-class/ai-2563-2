@@ -2,6 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from sklearn.linear_model import LogisticRegression
 from sklearn.linear_model import Perceptron
+from sklearn.svm import SVC
 
 
 def plot_decision_surface2(X_train, X_test, y_train, y_test, clf, filename=""):
@@ -24,6 +25,8 @@ def plot_decision_surface2(X_train, X_test, y_train, y_test, clf, filename=""):
         fitType = "logistic"
     elif isinstance(clf, Perceptron):
         fitType = "perceptron"
+    elif isinstance(clf, SVC):
+        fitType = "svm"
     else:
         print("\n\nUnknown classifier: " + type(clf))
         return
@@ -136,7 +139,7 @@ def plot_decision_surface2(X_train, X_test, y_train, y_test, clf, filename=""):
             marker=markers[idx],
             label=cl,
         )
-    ax4.set_title("Training Data")
+    ax4.set_title("Testing Data")
     ax4.set_xlim([xx1.min(), xx1.max()])
     ax4.set_ylim([xx2.min(), xx2.max()])
     ax4.set_xlabel("petal length (cm)")
