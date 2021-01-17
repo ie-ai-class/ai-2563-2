@@ -55,7 +55,7 @@ X_test_std = sc.transform(X_test)
 for param, _ in paramSet.items():
     lr = LogisticRegression(
         random_state=1,
-        verbose=0,
+        verbose=1,
         solver=paramSet[param]["solver"],
         C=paramSet[param]["C"],
         max_iter=paramSet[param]["max_iter"],
