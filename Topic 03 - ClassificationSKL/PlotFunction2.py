@@ -3,6 +3,7 @@ import matplotlib.pyplot as plt
 from sklearn.linear_model import LogisticRegression
 from sklearn.linear_model import Perceptron
 from sklearn.svm import SVC
+from sklearn.tree import DecisionTreeClassifier
 
 
 def plot_decision_surface2(X_train, X_test, y_train, y_test, clf, filename=""):
@@ -27,6 +28,8 @@ def plot_decision_surface2(X_train, X_test, y_train, y_test, clf, filename=""):
         fitType = "perceptron"
     elif isinstance(clf, SVC):
         fitType = "svm"
+    elif isinstance(clf, DecisionTreeClassifier):
+        fitType = "tree"
     else:
         print("\n\nUnknown classifier: " + type(clf))
         return

@@ -17,7 +17,6 @@ from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
 from sklearn.svm import SVC
 from sklearn.metrics import accuracy_score
-import inspect
 from PlotFunction2 import plot_decision_surface2
 
 plt.close("all")
@@ -43,7 +42,10 @@ sc.fit(X_train)
 X_train_std = sc.transform(X_train)
 X_test_std = sc.transform(X_test)
 
-svm = SVC(kernel="linear", C=1.0, random_state=1)
+param = "ex3"
+paramSet = {"ex1": {"C": 0.01}, "ex2": {"C": 1}, "ex3": {"C": 100}}
+
+svm = SVC(kernel="linear", C=paramSet[param]["C"], random_state=1)
 svm.fit(X_train_std, y_train)
 
 y_pred = svm.predict(X_test_std)
