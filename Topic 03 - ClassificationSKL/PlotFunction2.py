@@ -4,6 +4,7 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.linear_model import Perceptron
 from sklearn.svm import SVC
 from sklearn.tree import DecisionTreeClassifier
+from sklearn.ensemble import RandomForestClassifier
 
 
 def plot_decision_surface2(X_train, X_test, y_train, y_test, clf, filename=""):
@@ -30,6 +31,8 @@ def plot_decision_surface2(X_train, X_test, y_train, y_test, clf, filename=""):
         fitType = "svm"
     elif isinstance(clf, DecisionTreeClassifier):
         fitType = "tree"
+    elif isinstance(clf, RandomForestClassifier):
+        fitType = "forest"
     else:
         print("\n\nUnknown classifier: " + type(clf))
         return

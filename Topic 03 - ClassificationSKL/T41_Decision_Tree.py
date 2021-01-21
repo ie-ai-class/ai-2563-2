@@ -49,9 +49,12 @@ paramSet = {
     "ex2": {"criterion": "entropy", "max_depth": 4},
     "ex3": {"criterion": "gini", "max_depth": 8},
 }
+params = paramSet[param]
 
 # Creating objects
-tree_model = DecisionTreeClassifier(criterion="gini", max_depth=4, random_state=1)
+tree_model = DecisionTreeClassifier(
+    criterion=params["criterion"], max_depth=params["max_depth"], random_state=1
+)
 
 # Fiting
 tree_model.fit(X_train_std, y_train)
@@ -85,7 +88,7 @@ tree.plot_tree(
 fig.savefig("decistion_tree_plot_tree.pdf")
 
 
-import graphviz
+""" import graphviz
 
 # DOT data
 dot_data = tree.export_graphviz(
@@ -119,3 +122,4 @@ import cairosvg
 
 cairosvg.svg2pdf(url="decision_tree_cairo.svg", write_to="decision_tree_cairo.pdf")
 
+ """
