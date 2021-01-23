@@ -71,27 +71,29 @@ accuracyScore = accuracy_score(y_test, y_pred)
 print(f"Misclassified examples: {sumMiss}")
 print(f"Accuracy score: {accuracyScore}")
 
-
 # Plot dicision surface
+filenamePNG = "T34_tree_boundary_" + param + ".png"
 plot_decision_surface2(
-    X_train_std, X_test_std, y_train, y_test, tree_model, filename="output_svm.png"
+    X_train_std, X_test_std, y_train, y_test, tree_model, filename=filenamePNG
 )
 
-# Plot tree
-fig, ax = plt.subplots(1, figsize=(5, 5))
+# Visualization 1: Plot tree
+""" fig, ax = plt.subplots(1, figsize=(5, 5))
 tree.plot_tree(
     tree_model,
     feature_names=iris.feature_names[2:4],
     class_names=iris.target_names,
     filled=True,
 )
-fig.savefig("decistion_tree_plot_tree.pdf")
+filenamePDF = "T34_tree_visualize1_" + param + ".pdf"
+fig.savefig(filenamePDF) """
 
 
-""" import graphviz
+# Visualization 2: graphviz
+import graphviz
 
 # DOT data
-dot_data = tree.export_graphviz(
+""" dot_data = tree.export_graphviz(
     tree_model,
     out_file=None,
     feature_names=iris.feature_names[2:4],
@@ -101,10 +103,12 @@ dot_data = tree.export_graphviz(
 
 # Draw graph
 graph = graphviz.Source(dot_data, format="png")
-graph
+graph """
 
-
+# Visualization 3: dtreeviz
+""" import graphviz
 from dtreeviz.trees import dtreeviz  # remember to load the package
+import cairosvg
 
 viz = dtreeviz(
     tree_model,
@@ -116,10 +120,9 @@ viz = dtreeviz(
 )
 
 viz
-viz.save("decision_tree_cairo.svg")
+filenameSVG = "T34_tree_visualize3_" + param + ".svg"
+viz.save(filenameSVG)
 
-import cairosvg
+filenamePDF2 = "T34_tree_visualize3_" + param + ".pdf"
+cairosvg.svg2pdf(url=filenameSVG, write_to=filenamePDF2) """
 
-cairosvg.svg2pdf(url="decision_tree_cairo.svg", write_to="decision_tree_cairo.pdf")
-
- """

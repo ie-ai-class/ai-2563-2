@@ -72,4 +72,4 @@ for ex, param in paramSet.items():
     ax2.set_xlabel("X1")
     ax2.set_ylabel("X2")
     ax2.legend()
-    fig2.savefig("XOR_fit_" + ex + ".png", dpi=300)
+    fig2.savefig("T32_XOR_fit_" + ex + ".png", dpi=300)

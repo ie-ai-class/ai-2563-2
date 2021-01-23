@@ -15,9 +15,9 @@ import matplotlib.pyplot as plt
 from sklearn import datasets
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
-from sklearn.svm import SVC
 from sklearn.metrics import accuracy_score
 from PlotFunction2 import plot_decision_surface2
+from sklearn.svm import SVC
 
 plt.close("all")
 # =============================================================================
@@ -42,12 +42,18 @@ sc.fit(X_train)
 X_train_std = sc.transform(X_train)
 X_test_std = sc.transform(X_test)
 
-param = "ex3"
+# Parameters
+param = "ex1"
 paramSet = {"ex1": {"C": 0.01}, "ex2": {"C": 1}, "ex3": {"C": 100}}
+params = paramSet[param]
 
-svm = SVC(kernel="linear", C=paramSet[param]["C"], random_state=1)
+# Create object
+svm = SVC(kernel="linear", C=params["C"], random_state=1)
+
+# Training
 svm.fit(X_train_std, y_train)
 
+# Prediction
 y_pred = svm.predict(X_test_std)
 
 # Misclassification from the test samples
@@ -63,6 +69,7 @@ print(f"Norm of W: {np.linalg.norm(svm.coef_)}")
 # Print support vectors
 # print(svm.support_vectors_)
 
+filenamePNG = "T31_SVM_" + param + ".png"
 plot_decision_surface2(
-    X_train_std, X_test_std, y_train, y_test, svm, filename="output_svm.png"
+    X_train_std, X_test_std, y_train, y_test, svm, filename=filenamePNG
 )

@@ -95,7 +95,6 @@ accuracyScore = accuracy_score(y_test, y_pred)
 print(f"Misclassified examples: {sumMiss}")
 print(f"Accuracy score: {accuracyScore}")
 
-
 # Plot dicision surface
 filenamePNG = "T51_forest_decision_" + param + ".png"
 plot_decision_surface2(

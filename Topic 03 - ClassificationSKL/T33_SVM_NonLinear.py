@@ -42,16 +42,15 @@ sc.fit(X_train)
 X_train_std = sc.transform(X_train)
 X_test_std = sc.transform(X_test)
 
-param = "ex3"
+param = "ex2"
 paramSet = {
     "ex1": {"C": 1.0, "gamma": 0.2},
     "ex2": {"C": 1.0, "gamma": 100},
     "ex3": {"C": 10, "gamma": 0.1},
 }
+params = paramSet[param]
 
-svm = SVC(
-    kernel="rbf", gamma=paramSet[param]["gamma"], C=paramSet[param]["C"], random_state=1
-)
+svm = SVC(kernel="rbf", gamma=params["gamma"], C=params["C"], random_state=1)
 svm.fit(X_train_std, y_train)
 
 # Predict test samples
@@ -66,9 +65,7 @@ accuracyScore = accuracy_score(y_test, y_pred)
 print(f"Misclassified examples: {sumMiss}")
 print(f"Accuracy score: {accuracyScore}")
 
-# Print support vectors
-# print(svm.support_vectors_)
-
+filenamePNG = "T33_SVM_" + param + ".png"
 plot_decision_surface2(
-    X_train_std, X_test_std, y_train, y_test, svm, filename="output_svm.png"
+    X_train_std, X_test_std, y_train, y_test, svm, filename=filenamePNG
 )
