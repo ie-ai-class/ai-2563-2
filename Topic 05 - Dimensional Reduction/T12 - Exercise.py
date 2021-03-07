@@ -30,7 +30,7 @@ sry = pd.read_csv("data_y.csv")
 
 # Extract data
 X = dfx.values
-y = sry.values
+y = sry.values.ravel()
 
 # Split data
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=0)

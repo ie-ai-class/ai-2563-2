@@ -129,5 +129,5 @@ dmypy.json
 .pyre/
 
 # Nirand
-.vscode/settings.json
-.vscode/launch.json
+settings.json
+launch.json
